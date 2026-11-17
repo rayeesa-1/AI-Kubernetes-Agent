@@ -1,0 +1,8 @@
+# Add these patterns to your existing .gitignore (do not replace it).
+.env
+.env.local
+*.kubeconfig
+node_modules/
+.next/
+.venv/
+__pycache__/

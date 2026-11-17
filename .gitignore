@@ -1,0 +1,41 @@
+.env
+.env.local
+!.env.example
+node_modules/
+.next/
+.venv/
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+
+.kube/
+
+*.kubeconfig
+*.pem
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf
+
+# Additional environment files and private keys
+.env.*
+!.env.example
+*.key
+*.pfx
+*.p12
+
+# Backups and logs
+*.zip
+*.log
+logs/

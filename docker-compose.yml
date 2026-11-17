@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      INSFORGE_URL: ${INSFORGE_URL:-}
+      INSFORGE_API_KEY: ${INSFORGE_API_KEY:-}
+      INSFORGE_ANON_KEY: ${INSFORGE_ANON_KEY:-}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-}
+      KUBECONFIG_PATH: /kube/config
+      KUBECONFIG: /kube/config
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-15}
+      LLM_MAX_RETRIES: ${LLM_MAX_RETRIES:-2}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-1800}
+      CORS_ORIGINS: '["http://localhost:3000"]'
+    volumes:
+      - ./backend-all.kubeconfig:/kube/config:ro
+    networks:
+      - default
+      - kind
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+networks:
+  default: {}
+  kind:
+    external: true
+    name: kind

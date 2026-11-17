@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phase5-imagepull
+  namespace: ai-agent-lab
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 90
+  selector:
+    matchLabels:
+      app: phase5-imagepull
+  template:
+    metadata:
+      labels:
+        app: phase5-imagepull
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: python:phase5-intentionally-missing-tag-0000
+        command:
+        - python
+        - -u
+        - -c
+        - import time; time.sleep(3600)
+        resources:
+          requests:
+            cpu: 50m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL

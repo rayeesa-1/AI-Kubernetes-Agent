@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phase5-oom
+  namespace: ai-agent-lab
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 90
+  selector:
+    matchLabels:
+      app: phase5-oom
+  template:
+    metadata:
+      labels:
+        app: phase5-oom
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: python:3.12-alpine
+        command:
+        - python
+        - -u
+        - -c
+        - import time; print('Allocating memory for lab', flush=True); time.sleep(3);
+          data=bytearray(256*1024*1024); time.sleep(3600)
+        resources:
+          requests:
+            cpu: 50m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL

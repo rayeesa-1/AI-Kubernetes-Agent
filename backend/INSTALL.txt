@@ -1,0 +1,43 @@
+SIGNUP ERROR-HANDLING UPDATE
+
+This patch updates the backend you supplied. It does not change your frontend,
+API keys, Compose configuration, database, Kubernetes cluster, or AI logic.
+
+Install on Windows
+1. Extract this ZIP to a temporary folder.
+2. Copy its backend folder into:
+   C:\Users\rzsharif\Documents\my\ai-kubernetes-agent
+   Accept replacement of the three included files. Do not replace or delete
+   your existing backend folder wholesale; merge these files into it.
+3. In a terminal at your project root run:
+   docker compose up -d --build --no-deps backend
+4. Refresh http://localhost:3000 and try registration once.
+
+What changed
+- Recognized InsForge errors now give specific, fixed public messages.
+- Safe logs include upstream HTTP status and a local error category, never
+  passwords, email addresses, tokens, or raw upstream response bodies.
+- Required email verification is respected even if upstream omits its flag.
+- Signup omits redirectTo when email verification is disabled.
+
+Follow the message returned after retrying:
+- Account conflict: use Sign in or Verify an existing account.
+- Verification redirect: allow http://localhost:3000/ in the InsForge project's
+  Authentication redirect settings if local link verification is intended.
+- Password policy: follow the requirements shown on your signup form.
+- Signup disabled: enable public registration if that is your intended policy.
+- Email delivery failed: the account may already be created; fix email delivery
+  and use Verify an existing account to resend. Do not recreate the user.
+- Generic rejection: share the sanitized backend warning and HTTP status,
+  along with the error message. More provider-specific investigation is needed.
+
+Verification
+68 backend tests passed using simulated provider responses, including the new
+registration and verification regression tests. No live account was created
+and no live InsForge request with your credentials was made. This patch fixes
+error reporting and the listed verification edge cases; the cause of your
+particular live rejection has not yet been confirmed.
+
+To run tests with your backend dependencies installed:
+  cd backend
+  python -m unittest discover -s tests -q

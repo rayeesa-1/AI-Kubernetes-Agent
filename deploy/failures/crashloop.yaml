@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phase5-crashloop
+  namespace: ai-agent-lab
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 90
+  selector:
+    matchLabels:
+      app: phase5-crashloop
+  template:
+    metadata:
+      labels:
+        app: phase5-crashloop
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: python:3.12-alpine
+        command:
+        - python
+        - -u
+        - -c
+        - 'import os,sys,time; time.sleep(3); print(''Startup error: DATABASE_URL
+          environment variable is missing'', flush=True); sys.exit(1)'
+        resources:
+          requests:
+            cpu: 50m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL

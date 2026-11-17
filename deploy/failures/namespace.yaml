@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ai-agent-lab
+  labels:
+    app.kubernetes.io/managed-by: ai-agent-phase5
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: lab-budget
+  namespace: ai-agent-lab
+spec:
+  hard:
+    pods: '6'
+    requests.cpu: '1'
+    limits.cpu: '2'
+    requests.memory: 512Mi
+    limits.memory: 512Mi

@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      args:
+        KUBECTL_VERSION: ${KUBECTL_VERSION:-v1.35.0}
+    environment:
+      KUBECONFIG_PATH: /app/kube/config
+    volumes:
+      - type: bind
+        source: ./.kube/kind-config.json
+        target: /app/kube/config
+        read_only: true
+        bind:
+          create_host_path: false
+    networks:
+      - default
+      - kind
+networks:
+  kind:
+    external: true
+    name: kind

@@ -1,0 +1,44 @@
+INSFORGE SIGNUP: PROJECT ANONYMOUS KEY UPDATE
+
+Cause identified in the supplied backend:
+POST /api/auth/users was called without an Authorization header. Current InsForge
+registration uses verifyUser middleware and requires an anonymous credential for
+public signup. Login working does not validate this registration path.
+
+Install:
+1. Extract this ZIP to a temporary folder.
+2. Merge its backend folder into your existing project backend; replace the four
+   included files. Keep all other backend files.
+3. Copy the included docker-compose.yml to your project root, replacing the old
+   version. This is based on the Compose file you supplied, adding only
+   INSFORGE_ANON_KEY under backend.environment. If you have since customized
+   Compose, instead add that one variable manually and keep your customizations.
+4. Open your EXISTING project-root .env file. Add:
+   INSFORGE_ANON_KEY=your-project-anonymous-key
+   Do not overwrite INSFORGE_API_KEY, OPENROUTER_API_KEY, or other working values.
+   Use the anon_... key belonging to the same project as INSFORGE_URL.
+5. From the project root run:
+   docker compose up -d --build --no-deps backend
+6. Refresh the browser and retry signup once.
+
+Getting the anonymous key:
+InsForge's authentication setup documents obtaining ANON_KEY using its CLI.
+If your project dashboard exposes it, copy that project's anonymous/public key.
+Otherwise, in your project terminal, copy and run your own project's link command
+from InsForge Project Settings > Connect, completing any CLI login prompts.
+Then run:
+   npx -y @insforge/cli secrets get ANON_KEY
+Put the resulting anon_... value in .env. Do not paste credentials into chat.
+If npx is unavailable, share that error for an alternative setup route.
+CLI linking is used to retrieve the key; it is not a replacement for .env wiring.
+
+Credential separation:
+INSFORGE_ANON_KEY: signup as anonymous public client.
+INSFORGE_API_KEY: server-only admin history writes.
+OPENROUTER_API_KEY: model inference.
+The admin key is NOT used for public signup, and verification is NOT bypassed.
+
+Previous update's safe registration errors and verification fixes are included.
+The update provides only backend changes; your frontend already has signup.
+Tests use simulated InsForge responses. Live account creation still needs to be
+verified against your configured project after installing the correct anon key.

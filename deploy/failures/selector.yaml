@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phase5-selector
+  namespace: ai-agent-lab
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 90
+  selector:
+    matchLabels:
+      app: phase5-selector
+  template:
+    metadata:
+      labels:
+        app: phase5-selector
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: python:3.12-alpine
+        command:
+        - python
+        - -u
+        - -m
+        - http.server
+        - '8080'
+        resources:
+          requests:
+            cpu: 50m
+            memory: 16Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phase5-selector
+  namespace: ai-agent-lab
+spec:
+  selector:
+    app: phase5-label-does-not-exist
+  ports:
+  - port: 80
+    targetPort: 8080

@@ -1,0 +1,52 @@
+@import "tailwindcss";
+:root {color-scheme: light;}
+* {box-sizing: border-box;}
+body {margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f5f7fb; color: #152238; line-height: 1.6;}
+button, input {font: inherit;}
+button {cursor: pointer; border: 0; border-radius: 9px; padding: 10px 16px; font-weight: 600;}
+button:disabled {opacity: .5; cursor: not-allowed;}
+button:focus-visible, input:focus-visible, summary:focus-visible {outline: 3px solid #93c5fd; outline-offset: 3px;}
+h1 {font-size: clamp(1.6rem, 4vw, 2.1rem); letter-spacing: -.04em; font-weight: 700; line-height: 1.2; margin: 4px 0 12px;}
+h2 {font-size: 1.15rem; font-weight: 650; margin: 0 0 8px;}
+h3 {font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: #53637b; margin: 24px 0 6px; font-weight: 700;}
+p {margin: 6px 0 14px; overflow-wrap: anywhere;}
+.dashboard {max-width: 1180px; margin: auto; padding: 40px 24px;}
+.header, .intro, .section-heading, .account {display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;}
+.header {margin-bottom: 28px;}
+.account {font-size: .85rem;}
+.eyebrow {font-size: .7rem; text-transform: uppercase; letter-spacing: .18em; color: #245ad3; font-weight: 700; margin-bottom: 10px;}
+.panel {background: white; border: 1px solid #dfe5ee; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 3px 10px #15223804;}
+.primary {background: #245ad3; color: white;}
+.primary:hover:not(:disabled) {background: #1948b0;}
+.secondary {background: #edf2fa; color: #304667; font-size: .85rem;}
+.text-button {background: transparent; color: #245ad3; padding: 3px;}
+.muted {color: #627187; font-size: .84rem;}
+.notice {background: #fff7e7; border: 1px solid #efdaaa; color: #745116; border-radius: 9px; padding: 12px 16px;}
+.badge {border-radius: 99px; padding: 4px 12px; background: #eef3fb; color: #34527c; font-size: .78rem;}
+.steps {list-style: none; padding: 0; margin: 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px;}
+.steps li {display: flex; align-items: center; gap: 10px; font-size: .9rem;}
+.steps li .muted {margin-left: auto; font-size: .7rem;}
+.step-dot {display: inline-grid; place-items: center; border-radius: 50%; width: 26px; height: 26px; background: #edf1f6; color: #758296; flex-shrink: 0;}
+.step-dot.completed {background: #e0f5ec; color: #147a55;}
+.step-dot.running {background: #e7efff; color: #245ad3;}
+.step-dot.error {background: #ffebe8; color: #b93c2b;}
+pre {white-space: pre-wrap; overflow-wrap: anywhere; max-height: 400px; overflow: auto; background: #f3f6fb; padding: 16px; border-radius: 9px; font-size: .8rem;}
+summary {cursor: pointer; font-weight: 600;}
+ul {list-style: disc; padding-left: 24px;}
+.table-wrap {overflow-x: auto;}
+table {width: 100%; border-collapse: collapse; font-size: .8rem; text-align: left;}
+th {color: #65758d; font-weight: 500; white-space: nowrap;}
+th, td {padding: 13px 12px; border-bottom: 1px solid #e9edf4; vertical-align: top;}
+td:nth-child(2) {min-width: 200px; max-width: 360px;}
+.login-shell {min-height: 100vh; display: grid; place-items: center; padding: 24px;}
+.login-card {width: 100%; max-width: 460px; padding: 38px;}
+form {display: grid; gap: 12px; margin: 28px 0;}
+label {font-size: .85rem; font-weight: 600;}
+input {width: 100%; border: 1px solid #cbd5e1; border-radius: 9px; padding: 10px 12px; background: white;}
+@media (max-width: 640px) {.steps {grid-template-columns: 1fr;} .panel {padding: 20px;} .dashboard {padding: 24px 16px;} .account {width: 100%;} .intro .primary {width: 100%;}}
+
+.cluster-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+.cluster-option { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 16px; border: 1px solid #cbd5e1; border-radius: 12px; background: white; color: #172033; overflow-wrap: anywhere; cursor: pointer; }
+.cluster-option.chosen { border: 2px solid #2455dc; background: #eff6ff; }
+.cluster-option:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+.cluster-option:disabled { opacity: .6; cursor: wait; }

@@ -1,0 +1,27 @@
+Phase 5 verification
+
+PASS: Backend unittest discovery: 74 tests, 6.574 seconds.
+Command (from backend with dependencies installed):
+  python -m unittest discover -s tests -q
+
+Coverage includes authentication, signup, AI schema/reference validation,
+read-only collectors, user-scoped history, explicit per-request contexts,
+parallel executor context isolation, unknown context rejection, safe errors,
+missing kubeconfig, partial AI failure and unexpected exception handling.
+External Kubernetes, InsForge and OpenRouter calls are simulated.
+
+PASS: Frontend npm run typecheck.
+PASS: Frontend npm run build after final UI changes.
+Next.js 16.4.6 production build compiled, TypeScript passed, pages generated.
+
+PASS: All five lab YAML files parse. Workload namespaces are ai-agent-lab.
+
+NOT RUN: Browser interaction smoke test. Playwright's Chromium executable
+was unavailable; browser installation failed with truncated downloads.
+No claim of visual or browser interaction verification is made.
+
+NOT RUN: Live Kubernetes failures, InsForge SQL migration, realtime delivery,
+actual model diagnosis quality, or tests against the user's Windows Docker.
+No local Docker daemon or kubectl executable is available in this workspace.
+PowerShell helpers have been reviewed but not executed on Windows.
+Use docs/PHASE5-START-HERE.md for the live acceptance checklist and cleanup.
